@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react"
 import './dashboard.css'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import {useNavigate} from "react-router-dom"
 
 const Dashboard = () => {
     const [show, setShow] = useState(false);
-
+    const navigate = useNavigate();
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const [data, setData] = useState([])
@@ -30,9 +31,14 @@ const Dashboard = () => {
         .catch()
         console.log(id);
     }
+    const handleLogout = () =>{
+        localStorage.clear()
+        navigate('/login')
+    }
     return (
         <div>
           <h1>Dashboard</h1>
+          <button onClick={handleLogout}>Logut</button>
           <div className="item">
           {data.map((item) => (
             <div>

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import {useNavigate} from "react-router-dom"
 
-const Login = () => {
+const Login = ({setLogin}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [result, setResult] = useState([])
@@ -30,6 +30,7 @@ const Login = () => {
             {
                 setResult(res.data.token)
                 localStorage.setItem('Token', res.data.token);
+                setLogin(true);
                 navigate('/dashboard')
             })
         .catch((err) => console.log(err))
