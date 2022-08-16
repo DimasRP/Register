@@ -3,13 +3,15 @@ import React, { useEffect, useState } from "react"
 import './dashboard.css'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
+import { ToggleButton } from "react-bootstrap";
 
 const Dashboard = () => {
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+    const [userId, setUserId ] = useState('')
     const [data, setData] = useState([])
     useEffect(() => {
         getData()
@@ -45,26 +47,31 @@ const Dashboard = () => {
                 <p>{item.first_name}</p>
                 <img src={item.avatar}/>
                 <div>
-                    <Button variant="primary" onClick={handleShow}>
-                    Edit
-                    </Button>
-                    <Button variant="danger" onClick={handleShow}>
+                    <Link
+                    to={`/detail/${item?.id}`}>
+                        <Button variant="primary">
+                        Edit
+                        </Button>
+                    </Link>
+                    <Button variant="danger" onClick={()=>{setUserId(item.id);
+                         handleShow()}}>
                     Delete
-                    </Button>
+                    </Button>&nbsp;
                 </div>
-                <Modal show={show} onHide={handleClose}>
+                
+            </div>
+          ))}
+          <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>{item.first_name}</Modal.Body>
+                <Modal.Body>{userId}</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="danger" onClick={() => handleDelete(item.id)}>
+                    <Button variant="danger" onClick={() => handleDelete(userId)}>
                         Delete
                     </Button>
                 </Modal.Footer>
             </Modal>
-            </div>
-          ))}
           </div>
         </div>
     )

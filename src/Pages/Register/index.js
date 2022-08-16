@@ -1,11 +1,13 @@
 import './register.css'
 import axios from 'axios'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
+import {useNavigate} from "react-router-dom"
 
 const Register = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [result, setResult] = useState([])
+    const navigate = useNavigate();
     
 
     const handleEmail = (e) =>{
@@ -28,6 +30,14 @@ const Register = () => {
         .then((res) => setResult(res.data.token))
         .catch((err) => console.log(err))
     }
+    useEffect(()=> {
+        const checkIfLogin = () => {
+            const token = localStorage.getItem("Token")
+            if(!token) return
+            navigate("/dashboard")
+        }
+        checkIfLogin();
+    })
     return (
         <div className="form-register">
             <div>

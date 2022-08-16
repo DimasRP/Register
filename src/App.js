@@ -6,18 +6,19 @@ import Register from './Pages/Register';
 import Login from './Pages/Login';
 import Dashboard from './Pages/Dashboard';
 import Protected from './HOC/ProtectedRoute';
+import Detail from "./Pages/Detail";
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  const [user, setLogin] = useState(false)
+  const [user, setUser] = useState(false)
 
   const checkIfLogin = () => {
     const token = localStorage.getItem("Token");
     if (!token) {
-      setLogin(false);
+      setUser(false);
     } else {
-      setLogin(true);
+      setUser(true);
     }
   };
   useEffect(() => {
@@ -28,7 +29,7 @@ function App() {
     <Routes>
         <Route path="/" element={<Home/>} />
         <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login setLogin={setLogin} />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
         {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         <Route 
           path='/dashboard' 
@@ -38,6 +39,14 @@ function App() {
             </Protected>
           }
         />
+        <Route
+        path="/detail/:id"
+        element={
+          <Protected user={user}>
+            <Detail />
+          </Protected>
+        }
+      />
       </Routes>
   );
 }

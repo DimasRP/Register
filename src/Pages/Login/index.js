@@ -1,9 +1,9 @@
 import './login.css'
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {useNavigate} from "react-router-dom"
 
-const Login = ({setLogin}) => {
+const Login = ({setUser}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
     const [result, setResult] = useState([])
@@ -30,12 +30,19 @@ const Login = ({setLogin}) => {
             {
                 setResult(res.data.token)
                 localStorage.setItem('Token', res.data.token);
-                setLogin(true);
+                setUser(true);
                 navigate('/dashboard')
             })
         .catch((err) => console.log(err))
-        
     }
+    useEffect(()=> {
+        const checkIfLogin = () => {
+            const token = localStorage.getItem("Token")
+            if(!token) return
+            navigate("/dashboard")
+        }
+        checkIfLogin();
+    })
     return (
         <div className="form-register">
             <div>
